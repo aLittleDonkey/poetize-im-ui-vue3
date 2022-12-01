@@ -15,7 +15,7 @@ export default {
   shehui: "https://api.oick.cn/yulu/api.php",
   yiyan: "https://api.oick.cn/yiyan/api.php",
   dog: "https://api.oick.cn/dog/api.php",
-  random_image: "https://api.lixingyong.com/api/images?home=home&type=url&itype=album&id=p62&t=5&",
+  random_image: "$$$$随机图片",
 
   //前后端定义的密钥，AES使用16位
   cryptojs_key: "$$$$密钥",
