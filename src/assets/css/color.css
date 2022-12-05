@@ -69,10 +69,10 @@
     --black: black;
     --lightYellow: #F4E1C0;
 
-    --globalFont: $$$$字体地址;
+    --globalFont: SmileySans;
 
-    --imBackground: url($$$$图片);
+    --imBackground: url(../file/bg1.jpg);
 
-    --commentURL: url(https://view.moezx.cc/images/2018/03/24/comment-bg.png);
-    --toTop: url(https://cdn.jsdelivr.net/gh/LIlGG/cdn@1.0.2/img/Sakura/images/scroll.png);
+    --commentURL: url(../file/comment.jpg);
+    --toTop: url(../file/top.jpg);
 }

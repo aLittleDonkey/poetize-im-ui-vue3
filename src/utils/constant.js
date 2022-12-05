@@ -15,10 +15,9 @@ export default {
   shehui: "https://api.oick.cn/yulu/api.php",
   yiyan: "https://api.oick.cn/yiyan/api.php",
   dog: "https://api.oick.cn/dog/api.php",
-  random_image: "$$$$随机图片",
 
   //前后端定义的密钥，AES使用16位
-  cryptojs_key: "$$$$密钥",
+  cryptojs_key: "aoligeimeimaobin",
 
   qiniuUrl: "https://upload.qiniup.com",
   qiniuDownload: "$$$$七牛云下载地址",
@@ -29,7 +28,7 @@ export default {
   before_color_2: "rgb(131, 123, 199)",
   after_color_2: "linear-gradient(45deg, #f43f3b, #ec008c)",
 
-  tree_hole_color: ["$$$$随机颜色"],
+  tree_hole_color: ["#ee7752", "#e73c7e", "#23a6d5", "#23d5ab", "rgb(131, 123, 199)", "#23d5ab"],
 
   userId: 1,
   source: 0,
