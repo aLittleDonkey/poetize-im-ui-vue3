@@ -465,7 +465,7 @@
               修改信息
             </div>
             <div>
-              <n-input v-model:value="changeData" maxlength="20" show-count clearable/>
+              <n-input v-model:value="changeData" maxlength="30" show-count clearable/>
             </div>
             <div class="myCenter" style="margin-top: 30px">
               <n-button @click="submitChange()" type="info">

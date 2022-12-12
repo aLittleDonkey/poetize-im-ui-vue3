@@ -339,6 +339,7 @@
       <!-- 输入框 -->
       <textarea @keydown="send($event)"
                 v-model="msg"
+                maxlength="1000"
                 spellcheck="false"
                 class="message-content">
             </textarea>
@@ -559,14 +560,6 @@
 
       function doSend() {
         if ($common.isEmpty(data.msg)) {
-          return;
-        }
-
-        if (data.msg.length > 2000) {
-          ElMessage({
-            message: "消息长度不能超过 2000！",
-            type: 'warning'
-          });
           return;
         }
 

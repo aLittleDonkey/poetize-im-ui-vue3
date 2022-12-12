@@ -3,11 +3,17 @@ export default {
   webBaseURL: "http://localhost",
   imURL: "http://localhost:81",
   imBaseURL: "localhost",
+  webHistory: "",
+  wsProtocol: "ws",
+  wsPort: "9324",
 
   // baseURL: "https://poetize.cn/api",
   // webBaseURL: "https://poetize.cn",
   // imURL: "https://poetize.cn/im",
   // imBaseURL: "poetize.cn",
+  // webHistory: "/im/",
+  // wsProtocol: "wss",
+  // wsPort: "",
 
   hitokoto: "https://v1.hitokoto.cn",
   jinrishici: "https://v1.jinrishici.com/all.json",

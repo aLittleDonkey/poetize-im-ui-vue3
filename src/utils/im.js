@@ -3,11 +3,9 @@ import constant from "./constant";
 import {ElMessage} from "element-plus";
 
 export default function () {
-  this.ws_protocol = 'ws';
-  // this.ws_protocol = 'wss';
+  this.ws_protocol = constant.wsProtocol;
   this.ip = constant.imBaseURL;
-  this.port = 9324;
-  // this.port = null;
+  this.port = constant.wsPort;
   this.paramStr = 'Authorization=' + localStorage.getItem("userToken");
   this.binaryType = 'blob';
 
