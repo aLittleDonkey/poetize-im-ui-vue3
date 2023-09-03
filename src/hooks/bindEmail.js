@@ -32,7 +32,8 @@ export default function () {
 
   function showEmail() {
     if (!$common.isEmpty(store.state.currentUser) && $common.isEmpty(store.state.currentUser.email)) {
-      bindEmailData.emailVisible = true;
+      //没有绑定邮箱的用户会弹框
+      //bindEmailData.emailVisible = true;
     }
   }
 

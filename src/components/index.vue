@@ -113,16 +113,7 @@
         <div class="body-left" v-show="showBodyLeft">
           <!-- 搜索 -->
           <div>
-            <n-input round placeholder="搜索" class="im-input">
-              <template #suffix>
-                <n-icon size="30" style="cursor: pointer">
-                  <svg viewBox="0 0 512 512">
-                    <path
-                      d="M368.5 240H272v-96.5c0-8.8-7.2-16-16-16s-16 7.2-16 16V240h-96.5c-8.8 0-16 7.2-16 16 0 4.4 1.8 8.4 4.7 11.3 2.9 2.9 6.9 4.7 11.3 4.7H240v96.5c0 4.4 1.8 8.4 4.7 11.3 2.9 2.9 6.9 4.7 11.3 4.7 8.8 0 16-7.2 16-16V272h96.5c8.8 0 16-7.2 16-16s-7.2-16-16-16z"/>
-                  </svg>
-                </n-icon>
-              </template>
-            </n-input>
+            <n-input v-model:value="showFriendValue" round placeholder="搜索" class="im-input"></n-input>
           </div>
           <!-- 聊天 -->
           <div class="aside-list" v-show="type === 1">
@@ -151,6 +142,7 @@
             <div class="im-user im-group-current"
                  v-for="(item, index) in groupChats"
                  :key="index"
+                 v-show="groups[item].groupName.includes(showFriendValue) || $common.isEmpty(showFriendValue)"
                  @click="isActive($event, 'im-active', null, 2, item, 1)">
               <div>
                 <n-badge :value="groupMessageBadge[item]" :max="99">
@@ -171,6 +163,7 @@
             <div class="im-user im-user-current"
                  v-for="(item, index) in imChats"
                  :key="index"
+                 v-show="friends[item].remark.includes(showFriendValue) || $common.isEmpty(showFriendValue)"
                  @click="isActive($event, 'im-active', null, 2, item, 2)">
               <div>
                 <n-badge :value="imMessageBadge[item]" :max="99">
@@ -214,19 +207,22 @@
             </div>
 
             <!-- 好友列表 -->
-            <div class="im-user"
-                 v-for="(item, index) in Object.values(friends).reverse()"
-                 :key="index"
-                 @click="isActive($event, 'friend-active', null, 4, item)">
-              <div>
-                <n-avatar object-fit="cover"
-                          style="cursor: pointer"
-                          @click.stop="openFriendCircle(item.friendId, item.avatar)"
-                          :size="40"
-                          :src="item.avatar"/>
-              </div>
-              <div class="im-friend">
-                {{item.remark}}
+            <div style="overflow-y: scroll;height: calc(100% - 140px)">
+              <div class="im-user"
+                   v-for="(item, index) in Object.values(friends).reverse()"
+                   :key="index"
+                   v-show="item.remark.includes(showFriendValue) || $common.isEmpty(showFriendValue)"
+                   @click="isActive($event, 'friend-active', null, 4, item)">
+                <div>
+                  <n-avatar object-fit="cover"
+                            style="cursor: pointer"
+                            @click.stop="openFriendCircle(item.friendId, item.avatar)"
+                            :size="40"
+                            :src="item.avatar"/>
+                </div>
+                <div class="im-friend">
+                  {{item.remark}}
+                </div>
               </div>
             </div>
           </div>
@@ -241,6 +237,7 @@
             <div class="im-user-group"
                  v-for="(item, index) in Object.values(groups).reverse()"
                  :key="index"
+                 v-show="item.groupName.includes(showFriendValue) || $common.isEmpty(showFriendValue)"
                  @click="isActive($event, 'im-group', null, 5, item)">
               <div>
                 <n-avatar object-fit="cover"
@@ -423,7 +420,7 @@
                 </div>
                 <div>
                   <span class="friend-label">简&nbsp;&nbsp;&nbsp;介</span>
-                  <span>{{$common.isEmpty($store.state.currentUser.introduction)?'暂无简介':$store.state.currentUser.introduction}}</span>
+                  <span>{{$common.isEmpty(friends[currentFriendId].introduction)?'暂无简介':friends[currentFriendId].introduction}}</span>
                 </div>
               </div>
             </div>
@@ -633,7 +630,8 @@
         currentChatGroupId: null,
 
         type: 1,
-        subType: 1
+        subType: 1,
+        showFriendValue: ''
       })
 
       let im;
@@ -648,6 +646,7 @@
       async function getFriendAndGroup() {
         await getImFriend();
         await getImGroup();
+        await nextTick();
         getIm();
       }
 
@@ -1022,7 +1021,6 @@
   }
 
   .aside-list {
-    overflow-y: scroll;
     height: calc(100% - 60px);
   }
 
@@ -1055,10 +1053,6 @@
     background: var(--themeBackground);
     color: var(--white);
     margin-right: 12px;
-  }
-
-  .aside-list::-webkit-scrollbar {
-    display: none;
   }
 
   .msg-one {

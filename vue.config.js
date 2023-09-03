@@ -6,5 +6,6 @@ module.exports = {
     open: false
   },
   // publicPath: '/im/',
-  lintOnSave: false
+  lintOnSave: false,
+  productionSourceMap: false
 }

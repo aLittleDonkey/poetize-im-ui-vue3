@@ -62,14 +62,6 @@
     },
     methods: {
       openPicture() {
-        if (this.$common.isEmpty(this.$store.state.currentUser.email)) {
-          ElMessage({
-            message: "请先绑定邮箱！",
-            type: 'error'
-          });
-          return;
-        }
-
         this.showPicture = true
       },
       addPicture(res) {

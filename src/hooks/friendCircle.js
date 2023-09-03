@@ -32,14 +32,6 @@ export default function () {
   })
 
   function launch() {
-    if ($common.isEmpty(store.state.currentUser.email)) {
-      ElMessage({
-        message: "请先绑定邮箱！",
-        type: 'error'
-      });
-      return;
-    }
-
     friendCircleData.weiYanDialogVisible = true;
   }
 
@@ -51,14 +43,6 @@ export default function () {
   }
 
   function deleteTreeHole(id) {
-    if ($common.isEmpty(store.state.currentUser.email)) {
-      ElMessage({
-        message: "请先绑定邮箱！",
-        type: 'error'
-      });
-      return;
-    }
-
     dialog.error({
       title: '警告',
       content: '确定删除?',
@@ -149,14 +133,6 @@ export default function () {
   }
 
   function addFriend() {
-    if ($common.isEmpty(store.state.currentUser.email)) {
-      ElMessage({
-        message: "请先绑定邮箱！",
-        type: 'error'
-      });
-      return;
-    }
-
     dialog.success({
       title: '好友申请',
       content: '确认提交好友申请，添加 ' + friendCircleData.weiYanUsername + ' 为好友？',

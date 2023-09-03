@@ -24,14 +24,6 @@ export default function () {
   })
 
   function exitGroup(currentGroupId) {
-    if ($common.isEmpty(store.state.currentUser.email)) {
-      ElMessage({
-        message: "请先绑定邮箱！",
-        type: 'error'
-      });
-      return;
-    }
-
     $http.get($constant.baseURL + "/imChatGroupUser/quitGroup", {id: currentGroupId})
       .then((res) => {
         delete groupData.groups[currentGroupId];
@@ -50,14 +42,6 @@ export default function () {
   }
 
   function dissolveGroup(currentGroupId) {
-    if ($common.isEmpty(store.state.currentUser.email)) {
-      ElMessage({
-        message: "请先绑定邮箱！",
-        type: 'error'
-      });
-      return;
-    }
-
     $http.get($constant.baseURL + "/imChatGroup/deleteGroup", {id: currentGroupId})
       .then((res) => {
         delete groupData.groups[currentGroupId];

@@ -36,14 +36,6 @@ export default function (friendData, groupData) {
   }
 
   function changeAvatar(type) {
-    if ($common.isEmpty(store.state.currentUser.email)) {
-      ElMessage({
-        message: "请先绑定邮箱！",
-        type: 'error'
-      });
-      return;
-    }
-
     if (type === 1 || (type === 2 && groupData.groups[groupData.currentGroupId].masterFlag)) {
       closeModal();
       changeDataData.showAvatarDialog = true;

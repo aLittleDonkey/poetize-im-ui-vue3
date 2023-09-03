@@ -1,22 +1,18 @@
 import {createStore} from 'vuex'
-import createPersistedState from "vuex-persistedstate";
 
 
 export default createStore({
   state: {
-    currentUser: {}
+    currentUser: JSON.parse(localStorage.getItem("currentUser") || '{}')
   },
   getters: {},
   mutations: {
     loadCurrentUser(state, user) {
       state.currentUser = user;
+      localStorage.setItem("currentUser", JSON.stringify(user));
     }
   },
   actions: {},
   modules: {},
-  plugins: [
-    createPersistedState({
-      storage: window.localStorage
-    })
-  ]
+  plugins: []
 })

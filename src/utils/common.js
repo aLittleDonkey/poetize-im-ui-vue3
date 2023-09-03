@@ -56,7 +56,7 @@ export default {
     content = content.replace(/\[[^\[^\]]+\]/g, (word) => {
       let index = constant.emojiList.indexOf(word.replace("[", "").replace("]", ""));
       if (index > -1) {
-        let url = "$$$$表情包地址/q" + (index + 1) + ".gif";
+        let url = constant.qiniuDownload + "emoji/q" + (index + 1) + ".gif";
         return '<img style="vertical-align: middle;width: 32px;height: 32px" src="' + url + '" title="' + word + '"/>';
       } else {
         return word;
@@ -146,10 +146,12 @@ export default {
   /**
    * 保存资源
    */
-  saveResource(that, type, path) {
+  saveResource(that, type, path, size, mimeType) {
     let resource = {
       type: type,
-      path: path
+      path: path,
+      size: size,
+      mimeType: mimeType
     };
 
     that.$http.post(that.$constant.baseURL + "/resource/saveResource", resource)

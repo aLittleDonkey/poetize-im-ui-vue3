@@ -43,14 +43,6 @@ export default function () {
   }
 
   function removeFriend(currentFriendId) {
-    if ($common.isEmpty(store.state.currentUser.email)) {
-      ElMessage({
-        message: "请先绑定邮箱！",
-        type: 'error'
-      });
-      return;
-    }
-
     dialog.error({
       title: '警告',
       content: '你确定删除' + friendData.friends[currentFriendId].remark + '?',

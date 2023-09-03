@@ -423,14 +423,6 @@
       })
 
       function sendPicture() {
-        if ($common.isEmpty(store.state.currentUser.email)) {
-          ElMessage({
-            message: "请先绑定邮箱！",
-            type: 'error'
-          });
-          return;
-        }
-
         if (!$common.isEmpty(props.currentChatFriendId)) {
           data.picturePrefix = 'im/friendMessage';
           data.showPictureDialog = true;

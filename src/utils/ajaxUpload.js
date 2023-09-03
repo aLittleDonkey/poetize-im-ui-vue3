@@ -11,7 +11,7 @@ function getError(
   } else if (xhr.responseText) {
     msg = `${xhr.responseText}`
   } else {
-    msg = `fail to ${option.method} ${action} ${xhr.status}`
+    msg = `fail to ${action} ${xhr.status}`
   }
 
   return new Error(msg)
@@ -38,7 +38,6 @@ export default function (option) {
   if (option.data) {
     for (const [key, value] of Object.entries(option.data)) {
       if (Array.isArray(value)) formData.append(key, ...value)
-      else if (key === 'key') formData.append(key, value + new Date().getTime() + Math.floor(Math.random() * 1000))
       else formData.append(key, value)
     }
   }

@@ -10,7 +10,6 @@
       ref="upload"
       :auto-upload="false"
       :http-request="customUpload"
-      :data="qiniuParam"
       :on-change="handleChange"
       :before-upload="beforeUpload"
       :on-success="handleSuccess"
@@ -64,36 +63,13 @@
     },
 
     data() {
-      return {
-        qiniuParam: {
-          token: "",
-          key: this.prefix + "/" + this.$store.state.currentUser.username.replace(/[^a-zA-Z]/g, '') + this.$store.state.currentUser.id
-        }
-      }
+      return {}
     },
 
     created() {
-      if (!this.$common.isEmpty(this.$store.state.currentUser) && !this.$common.isEmpty(this.$store.state.currentUser.email)) {
-        this.getUpToken();
-      }
     },
 
     methods: {
-      getUpToken() {
-        this.$http.get(this.$constant.baseURL + "/qiniu/getUpToken")
-          .then((res) => {
-            if (!this.$common.isEmpty(res.data)) {
-              this.qiniuParam.token = res.data;
-            }
-          })
-          .catch((error) => {
-            ElMessage({
-              message: error.message,
-              type: 'error'
-            });
-          });
-      },
-
       submitUpload() {
         this.$refs.upload.submit();
       },
@@ -101,21 +77,45 @@
       // 文件上传成功时的钩子
       handleSuccess(response, file, fileList) {
         let url = this.$constant.qiniuDownload + response.key;
-        this.$common.saveResource(this, this.prefix, url);
+        this.$common.saveResource(this, this.prefix, url, file.size, file.raw.type);
         this.$emit("addPicture", url);
       },
 
       customUpload(options) {
-        let request = upload(options);
-        if (request instanceof Promise) {
-          request.then(options.onSuccess, options.onError);
+        let suffix = "";
+        if (options.file.name.lastIndexOf('.') !== -1) {
+          suffix = options.file.name.substring(options.file.name.lastIndexOf('.'));
+        }
+
+        let key = this.prefix + "/" + this.$store.state.currentUser.username.replace(/[^a-zA-Z]/g, '') + this.$store.state.currentUser.id + new Date().getTime() + Math.floor(Math.random() * 1000) + suffix;
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('get', this.$constant.baseURL + "/qiniu/getUpToken?key=" + key, false);
+        xhr.setRequestHeader("Authorization", localStorage.getItem("userToken"));
+
+        try {
+          xhr.send();
+          const res = JSON.parse(xhr.responseText);
+          if (res !== null && res.hasOwnProperty("code") && res.code === 200) {
+            options.data = {
+              token: res.data,
+              key: key
+            };
+            return upload(options);
+          } else if (res !== null && res.hasOwnProperty("code") && res.code !== 200) {
+            return Promise.reject(res.message);
+          } else {
+            return Promise.reject("服务异常！");
+          }
+        } catch (e) {
+          return Promise.reject(e.message);
         }
       },
 
       handleError(err, file, fileList) {
         ElMessage({
-          message: '上传出错！',
-          type: 'warning'
+          message: err,
+          type: 'error'
         });
       },
 
@@ -125,13 +125,6 @@
 
       // 上传文件之前的钩子，参数为上传的文件，若返回 false 或者返回 Promise 且被 reject，则停止上传
       beforeUpload(file) {
-        if (this.$common.isEmpty(this.qiniuParam.token)) {
-          ElMessage({
-            message: '上传出错！',
-            type: 'warning'
-          });
-          return false;
-        }
       },
 
       // 添加文件、上传成功和上传失败时都会被调用
@@ -151,7 +144,7 @@
         }
 
         if (flag) {
-          fileList.splice(fileList.size - 1, 1);
+          fileList.splice(fileList.length - 1, 1);
         }
       }
     }
