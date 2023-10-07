@@ -76,7 +76,8 @@ export default {
 
   upload(url, param) {
     let config = {
-      headers: {"Authorization": localStorage.getItem("userToken"), "Content-Type": "multipart/form-data"}
+      headers: {"Authorization": localStorage.getItem("userToken"), "Content-Type": "multipart/form-data"},
+      timeout: 60000
     };
 
     return new Promise((resolve, reject) => {

@@ -62,6 +62,9 @@ app.config.globalProperties.$constant = constant
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
     if (to.path === "/") {
+      if (typeof to.query.defaultStoreType !== "undefined") {
+        localStorage.setItem("defaultStoreType", to.query.defaultStoreType);
+      }
       if (typeof to.query.userToken !== "undefined") {
         let userToken = to.query.userToken;
         const xhr = new XMLHttpRequest();

@@ -146,12 +146,13 @@ export default {
   /**
    * 保存资源
    */
-  saveResource(that, type, path, size, mimeType) {
+  saveResource(that, type, path, size, mimeType, storeType) {
     let resource = {
       type: type,
       path: path,
       size: size,
-      mimeType: mimeType
+      mimeType: mimeType,
+      storeType: storeType
     };
 
     that.$http.post(that.$constant.baseURL + "/resource/saveResource", resource)
