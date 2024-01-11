@@ -356,7 +356,7 @@
     <n-modal v-model:show="showPictureDialog">
       <div style="padding: 40px;background: var(--white);border-radius: 5px;width: 20%">
         <div style="margin: 0 0 25px;text-align: center;font-size: 18px">上传图片</div>
-        <uploadPicture :prefix="picturePrefix" @addPicture="addPicture" :maxSize="5"
+        <uploadPicture :prefix="picturePrefix" @addPicture="addPicture" :maxSize="2"
                        :maxNumber="1"></uploadPicture>
       </div>
     </n-modal>
@@ -433,7 +433,7 @@
       }
 
       function addPicture(res) {
-        data.msg += "<" + store.state.currentUser.username + "," + res + ">";
+        data.msg += "[" + store.state.currentUser.username + "," + res + "]";
         data.showPictureDialog = false;
       }
 
@@ -446,7 +446,7 @@
       }
 
       function sendImage(url) {
-        data.msg += "<" + store.state.currentUser.username + "," + url + ">";
+        data.msg += "[" + store.state.currentUser.username + "," + url + "]";
         data.showPopoverImage = false;
         doSend();
       }

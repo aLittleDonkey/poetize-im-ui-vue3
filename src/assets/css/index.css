@@ -67,6 +67,14 @@ body {
     max-width: 250px !important;
 }
 
+.v-x-scroll {
+    overflow: unset;
+}
+
+.n-base-icon.n-dialog__icon {
+    display: none;
+}
+
 
 @media screen and (max-width: 400px) {
     .emoji-body {

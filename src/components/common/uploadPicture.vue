@@ -83,7 +83,7 @@
           url = response.data;
         } else if (this.storeType === "qiniu") {
           url = this.$constant.qiniuDownload + response.key;
-          this.$common.saveResource(this, this.prefix, url, file.size, file.raw.type, "qiniu");
+          this.$common.saveResource(this, this.prefix, url, file.size, file.raw.type, file.name, "qiniu");
         }
         this.$emit("addPicture", url);
       },
@@ -104,9 +104,10 @@
           data.relativePath = key;
           data.type = this.prefix;
           data.storeType = this.storeType;
+          data.originalName = options.file.name;
           data.file = options.file;
 
-          return this.$http.upload(this.$constant.baseURL + "/resource/upload", data);
+          return this.$http.upload(this.$constant.baseURL + "/resource/upload", data, options);
         } else if (this.storeType === "qiniu") {
           const xhr = new XMLHttpRequest();
           xhr.open('get', this.$constant.baseURL + "/qiniu/getUpToken?key=" + key, false);

@@ -74,11 +74,19 @@ export default {
     });
   },
 
-  upload(url, param) {
+  upload(url, param, option) {
     let config = {
       headers: {"Authorization": localStorage.getItem("userToken"), "Content-Type": "multipart/form-data"},
       timeout: 60000
     };
+    if (typeof option !== "undefined") {
+      config.onUploadProgress = progressEvent => {
+        if (progressEvent.total > 0) {
+          progressEvent.percent = progressEvent.loaded / progressEvent.total * 100;
+        }
+        option.onProgress(progressEvent);
+      };
+    }
 
     return new Promise((resolve, reject) => {
       axios

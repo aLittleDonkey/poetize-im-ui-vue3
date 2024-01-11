@@ -138,44 +138,46 @@
               </div>
             </div>
 
-            <!-- 群聊天 -->
-            <div class="im-user im-group-current"
-                 v-for="(item, index) in groupChats"
-                 :key="index"
-                 v-show="groups[item].groupName.includes(showFriendValue) || $common.isEmpty(showFriendValue)"
-                 @click="isActive($event, 'im-active', null, 2, item, 1)">
-              <div>
-                <n-badge :value="groupMessageBadge[item]" :max="99">
-                  <n-avatar object-fit="cover"
-                            :size="40"
-                            :src="groups[item].avatar"/>
-                </n-badge>
-              </div>
-              <div class="im-user-right">
-                <div>{{groups[item].groupName}}</div>
-                <div class="im-down" v-if="!$common.isEmpty(groupMessages[item])">
-                  {{groupMessages[item][groupMessages[item].length-1].content.substr(0, 8)}}
+            <div style="overflow-y: scroll;height: calc(100% - 70px)">
+              <!-- 群聊天 -->
+              <div class="im-user im-group-current"
+                   v-for="(item, index) in groupChats"
+                   :key="index"
+                   v-show="groups[item].groupName.includes(showFriendValue) || $common.isEmpty(showFriendValue)"
+                   @click="isActive($event, 'im-active', null, 2, item, 1)">
+                <div>
+                  <n-badge :value="groupMessageBadge[item]" :max="99">
+                    <n-avatar object-fit="cover"
+                              :size="40"
+                              :src="groups[item].avatar"/>
+                  </n-badge>
+                </div>
+                <div class="im-user-right">
+                  <div>{{groups[item].groupName}}</div>
+                  <div class="im-down" v-if="!$common.isEmpty(groupMessages[item])">
+                    {{groupMessages[item][groupMessages[item].length-1].content.substr(0, 8)}}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <!-- 聊天 -->
-            <div class="im-user im-user-current"
-                 v-for="(item, index) in imChats"
-                 :key="index"
-                 v-show="friends[item].remark.includes(showFriendValue) || $common.isEmpty(showFriendValue)"
-                 @click="isActive($event, 'im-active', null, 2, item, 2)">
-              <div>
-                <n-badge :value="imMessageBadge[item]" :max="99">
-                  <n-avatar object-fit="cover"
-                            :size="40"
-                            :src="friends[item].avatar"/>
-                </n-badge>
-              </div>
-              <div class="im-user-right">
-                <div>{{friends[item].remark}}</div>
-                <div class="im-down" v-if="!$common.isEmpty(imMessages[item])">
-                  {{imMessages[item][imMessages[item].length-1].content.substr(0, 8)}}
+              <!-- 聊天 -->
+              <div class="im-user im-user-current"
+                   v-for="(item, index) in imChats"
+                   :key="index"
+                   v-show="friends[item].remark.includes(showFriendValue) || $common.isEmpty(showFriendValue)"
+                   @click="isActive($event, 'im-active', null, 2, item, 2)">
+                <div>
+                  <n-badge :value="imMessageBadge[item]" :max="99">
+                    <n-avatar object-fit="cover"
+                              :size="40"
+                              :src="friends[item].avatar"/>
+                  </n-badge>
+                </div>
+                <div class="im-user-right">
+                  <div>{{friends[item].remark}}</div>
+                  <div class="im-down" v-if="!$common.isEmpty(imMessages[item])">
+                    {{imMessages[item][imMessages[item].length-1].content.substr(0, 8)}}
+                  </div>
                 </div>
               </div>
             </div>
@@ -511,7 +513,7 @@
         </n-modal>
 
         <!-- 发朋友动态 -->
-        <n-modal v-model:show="weiYanDialogVisible">
+        <n-modal v-model:show="weiYanDialogVisible" :mask-closable="false" preset="dialog">
           <div class="weiyan-edit">
             <div class="myCenter" style="padding-bottom: 20px">
               <el-radio-group v-model="isPublic">
@@ -659,21 +661,24 @@
           if (message.messageType === 1) {
             if (message.fromId === store.state.currentUser.id && (friendData.friends[message.toId] !== null && friendData.friends[message.toId] !== undefined)) {
               if (data.imMessages[message.toId] === null || data.imMessages[message.toId] === undefined) {
-                for (let i = 0; i < data.imChats.length; i++) {
-                  if (data.imChats[i] === message.toId) {
-                    data.imChats.splice(i, 1);
-                  }
-                }
-                data.imChats.splice(0, 0, message.toId);
-
                 data.imMessages[message.toId] = [];
               }
               data.imMessages[message.toId].push(message);
+
+              for (let i = 0; i < data.imChats.length; i++) {
+                if (data.imChats[i] === message.toId) {
+                  data.imChats.splice(i, 1);
+                  break;
+                }
+              }
+              data.imChats.splice(0, 0, message.toId);
+              isActive(document.getElementsByClassName('im-user-current')[0], 'im-active', null, 2, message.toId, 2);
             } else if (message.fromId !== store.state.currentUser.id && (friendData.friends[message.fromId] !== null && friendData.friends[message.fromId] !== undefined)) {
               if (data.imMessages[message.fromId] === null || data.imMessages[message.fromId] === undefined) {
                 for (let i = 0; i < data.imChats.length; i++) {
                   if (data.imChats[i] === message.fromId) {
                     data.imChats.splice(i, 1);
+                    break;
                   }
                 }
                 data.imChats.splice(0, 0, message.fromId);
@@ -700,16 +705,20 @@
             });
           } else if (message.messageType === 2 && (groupData.groups[message.groupId] !== null && groupData.groups[message.groupId] !== undefined)) {
             if (data.groupMessages[message.groupId] === null || data.groupMessages[message.groupId] === undefined) {
-              for (let i = 0; i < data.groupChats.length; i++) {
-                if (data.groupChats[i] === message.groupId) {
-                  data.groupChats.splice(i, 1);
-                }
-              }
-              data.groupChats.splice(0, 0, message.groupId);
-
               data.groupMessages[message.groupId] = [];
             }
             data.groupMessages[message.groupId].push(message);
+
+            if(message.fromId === store.state.currentUser.id || data.groupMessages[message.groupId] === null || data.groupMessages[message.groupId] === undefined) {
+              for (let i = 0; i < data.groupChats.length; i++) {
+                if (data.groupChats[i] === message.groupId) {
+                  data.groupChats.splice(i, 1);
+                  break;
+                }
+              }
+              data.groupChats.splice(0, 0, message.groupId);
+              isActive(document.getElementsByClassName('im-group-current')[0], 'im-active', null, 2, message.groupId, 1);
+            }
 
             if ((data.subType !== 2 || data.currentChatGroupId !== message.groupId) && message.fromId !== store.state.currentUser.id) {
               if (data.groupMessageBadge[message.groupId] === null || data.groupMessageBadge[message.groupId] === undefined) {
@@ -793,6 +802,7 @@
         for (let i = 0; i < data.imChats.length; i++) {
           if (data.imChats[i] === friendData.currentFriendId) {
             data.imChats.splice(i, 1);
+            break;
           }
         }
         data.imChats.splice(0, 0, friendData.currentFriendId);
@@ -806,6 +816,7 @@
         for (let i = 0; i < data.groupChats.length; i++) {
           if (data.groupChats[i] === groupData.currentGroupId) {
             data.groupChats.splice(i, 1);
+            break;
           }
         }
         data.groupChats.splice(0, 0, groupData.currentGroupId);
@@ -922,9 +933,7 @@
 <style scoped>
 
   .friend-wrap {
-    background: var(--imBackground) no-repeat center;
-    background-size: 300% 300%;
-    animation: gradientBG 100s ease infinite;
+    background: var(--imBackground) center center / cover no-repeat;
     width: 100vw;
     height: 100vh;
   }

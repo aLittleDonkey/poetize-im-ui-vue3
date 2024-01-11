@@ -69,10 +69,10 @@ export default {
    * 图片转换
    */
   pictureReg(content) {
-    content = content.replace(/\<[^\<^\>]+\>/g, (word) => {
+    content = content.replace(/\[[^\[^\]]+\]/g, (word) => {
       let index = word.indexOf(",");
       if (index > -1) {
-        let arr = word.replace("<", "").replace(">", "").split(",");
+        let arr = word.replace("[", "").replace("]", "").split(",");
         return '<img style="border-radius: 5px;width: 100%;max-width: 250px" src="' + arr[1] + '" title="' + arr[0] + '"/>';
       } else {
         return word;
@@ -146,13 +146,14 @@ export default {
   /**
    * 保存资源
    */
-  saveResource(that, type, path, size, mimeType, storeType) {
+  saveResource(that, type, path, size, mimeType, originalName, storeType) {
     let resource = {
       type: type,
       path: path,
       size: size,
       mimeType: mimeType,
-      storeType: storeType
+      storeType: storeType,
+      originalName: originalName
     };
 
     that.$http.post(that.$constant.baseURL + "/resource/saveResource", resource)

@@ -30,7 +30,7 @@
 
     <n-modal v-model:show="showPicture">
       <div class="comment-picture">
-        <uploadPicture :prefix="'commentPicture'" @addPicture="addPicture" :maxSize="5"
+        <uploadPicture :prefix="'commentPicture'" @addPicture="addPicture" :maxSize="2"
                        :maxNumber="1"></uploadPicture>
       </div>
     </n-modal>
@@ -69,7 +69,7 @@
         this.savePicture();
       },
       savePicture() {
-        let img = "<" + this.picture.name + "," + this.picture.url + ">";
+        let img = "[" + this.picture.name + "," + this.picture.url + "]";
         this.commentContent += img;
         this.picture.url = "";
         this.showPicture = false;
