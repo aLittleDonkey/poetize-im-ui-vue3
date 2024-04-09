@@ -8,6 +8,7 @@
         <div class="tree-hole-content"
              :class="{ leftTreeHole: index % 2 === 0 && !$common.mobile(), rightTreeHole: index % 2 !== 0 || $common.mobile() }">
           <n-avatar object-fit="cover"
+                    lazy
                     class="avatar-img"
                     :size="36"
                     :src="avatar"/>

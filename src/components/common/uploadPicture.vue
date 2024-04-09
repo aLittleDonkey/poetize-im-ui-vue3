@@ -2,7 +2,7 @@
   <div>
     <el-upload
       class="upload-demo"
-      :action="$constant.qiniuUrl"
+      :action="$store.state.sysConfig.qiniuUrl"
       multiple
       drag
       :on-remove="handleRemove"
@@ -82,7 +82,7 @@
         if (this.storeType === "local") {
           url = response.data;
         } else if (this.storeType === "qiniu") {
-          url = this.$constant.qiniuDownload + response.key;
+          url = this.$store.state.sysConfig['qiniu.downloadUrl'] + response.key;
           this.$common.saveResource(this, this.prefix, url, file.size, file.raw.type, file.name, "qiniu");
         }
         this.$emit("addPicture", url);

@@ -69,10 +69,5 @@
     --black: black;
     --lightYellow: #F4E1C0;
 
-    --globalFont: SmileySans;
-
-    --imBackground: url(../file/bg1.jpg);
-
-    --commentURL: url(../file/comment.jpg);
-    --toTop: url(../file/top.jpg);
+    --globalFont: poetize-font;
 }

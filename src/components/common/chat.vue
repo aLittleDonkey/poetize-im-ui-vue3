@@ -27,6 +27,7 @@
           <div>
             <n-avatar object-fit="cover"
                       :size="40"
+                      lazy
                       style="cursor: pointer"
                       @click="openFriendCircle(item.fromId, item.avatar)"
                       :src="item.avatar"/>
@@ -50,6 +51,7 @@
           <div>
             <n-avatar object-fit="cover"
                       :size="40"
+                      lazy
                       style="cursor: pointer"
                       @click="openFriendCircle(item.fromId, item.avatar, item.username)"
                       :src="item.avatar"/>

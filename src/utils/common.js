@@ -1,5 +1,6 @@
 import constant from "./constant";
 import CryptoJS from 'crypto-js';
+import store from '../store';
 import {ElMessage} from "element-plus";
 
 export default {
@@ -56,8 +57,8 @@ export default {
     content = content.replace(/\[[^\[^\]]+\]/g, (word) => {
       let index = constant.emojiList.indexOf(word.replace("[", "").replace("]", ""));
       if (index > -1) {
-        let url = constant.qiniuDownload + "emoji/q" + (index + 1) + ".gif";
-        return '<img style="vertical-align: middle;width: 32px;height: 32px" src="' + url + '" title="' + word + '"/>';
+        let url = store.state.sysConfig['webStaticResourcePrefix'] + "emoji/q" + (index + 1) + ".gif";
+        return '<img loading="lazy" style="vertical-align: middle;width: 32px;height: 32px" src="' + url + '" title="' + word + '"/>';
       } else {
         return word;
       }
@@ -73,7 +74,7 @@ export default {
       let index = word.indexOf(",");
       if (index > -1) {
         let arr = word.replace("[", "").replace("]", "").split(",");
-        return '<img style="border-radius: 5px;width: 100%;max-width: 250px" src="' + arr[1] + '" title="' + arr[0] + '"/>';
+        return '<img loading="lazy" style="border-radius: 5px;width: 100%;max-width: 250px" src="' + arr[1] + '" title="' + arr[0] + '"/>';
       } else {
         return word;
       }

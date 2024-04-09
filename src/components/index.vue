@@ -5,7 +5,7 @@
         <div>
           <!-- 头像 -->
           <div>
-            <n-avatar object-fit="cover" @click="changeAvatar(1)" class="user-thumb"
+            <n-avatar lazy object-fit="cover" @click="changeAvatar(1)" class="user-thumb"
                       :src="$store.state.currentUser.avatar"/>
           </div>
           <!-- 聊天 -->
@@ -148,6 +148,7 @@
                 <div>
                   <n-badge :value="groupMessageBadge[item]" :max="99">
                     <n-avatar object-fit="cover"
+                              lazy
                               :size="40"
                               :src="groups[item].avatar"/>
                   </n-badge>
@@ -169,6 +170,7 @@
                 <div>
                   <n-badge :value="imMessageBadge[item]" :max="99">
                     <n-avatar object-fit="cover"
+                              lazy
                               :size="40"
                               :src="friends[item].avatar"/>
                   </n-badge>
@@ -217,6 +219,7 @@
                    @click="isActive($event, 'friend-active', null, 4, item)">
                 <div>
                   <n-avatar object-fit="cover"
+                            lazy
                             style="cursor: pointer"
                             @click.stop="openFriendCircle(item.friendId, item.avatar)"
                             :size="40"
@@ -244,6 +247,7 @@
               <div>
                 <n-avatar object-fit="cover"
                           :size="45"
+                          lazy
                           :src="item.avatar"/>
               </div>
               <div class="im-user-right">
@@ -324,6 +328,7 @@
               <div>
                 <n-avatar object-fit="cover"
                           :size="50"
+                          lazy
                           :src="item.avatar"/>
               </div>
 
@@ -363,6 +368,7 @@
                 <div style="display: flex;align-items: center">
                   <n-avatar object-fit="cover"
                             :size="60"
+                            lazy
                             :src="friends[currentFriendId].avatar"/>
 
                   <span style="margin: 0 5px 0 15px;font-size: 16px">{{friends[currentFriendId].remark}}</span>
@@ -643,6 +649,7 @@
         getSystemMessages();
         getFriendRequests();
         getFriendAndGroup();
+        buildCssPicture();
       }
 
       async function getFriendAndGroup() {
@@ -650,6 +657,16 @@
         await getImGroup();
         await nextTick();
         getIm();
+      }
+
+      function buildCssPicture() {
+        let root = document.querySelector(":root");
+        let webStaticResourcePrefix = store.state.sysConfig['webStaticResourcePrefix'];
+        root.style.setProperty("--commentURL", "url(" + webStaticResourcePrefix + "assets/commentURL.jpg)");
+        root.style.setProperty("--imBackground", "url(" + webStaticResourcePrefix + "assets/backgroundPicture.jpg)");
+        const font = new FontFace("poetize-font", "url(" + webStaticResourcePrefix + "assets/font.woff2)");
+        font.load();
+        document.fonts.add(font);
       }
 
       function getIm() {

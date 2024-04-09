@@ -13,6 +13,7 @@
       <div class="myCenter" style="padding: 50px 0">
         <n-avatar object-fit="cover"
                   :size="60"
+                  lazy
                   :src="groups[currentGroupId].avatar"/>
       </div>
 
@@ -119,7 +120,7 @@
           <n-tab-pane name="群设置" tab="群设置">
             <div>
               <div class="myCenter" style="margin: 15px 0">
-                <n-avatar object-fit="cover" @click="changeAvatar(2)" round class="group-avatar" :size="70"
+                <n-avatar lazy object-fit="cover" @click="changeAvatar(2)" round class="group-avatar" :size="70"
                           :src="groups[currentGroupId].avatar"/>
               </div>
 
@@ -159,6 +160,7 @@
                 <div>
                   <n-avatar object-fit="cover"
                             :size="40"
+                            lazy
                             :src="item.avatar"/>
                 </div>
 

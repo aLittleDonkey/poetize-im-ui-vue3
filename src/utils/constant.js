@@ -1,20 +1,21 @@
 export default {
+  // 测试环境
   baseURL: "http://localhost:8081",
   webBaseURL: "http://localhost",
-  imURL: "http://localhost:81",
+  imURL: "http://localhost:81/im",
   imBaseURL: "localhost",
-  webHistory: "",
   wsProtocol: "ws",
   wsPort: "9324",
 
-  // baseURL: "https://poetize.cn/api",
-  // webBaseURL: "https://poetize.cn",
-  // imURL: "https://poetize.cn/im",
-  // imBaseURL: "poetize.cn",
-  // webHistory: "/im/",
-  // wsProtocol: "wss",
+  // 生产环境
+  // baseURL: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : '') + "/api",
+  // webBaseURL: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : ''),
+  // imURL: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : '') + "/im",
+  // imBaseURL: location.hostname + (location.port ? ':' + location.port : ''),
+  // wsProtocol: location.protocol === "http:" ? "ws" : "wss",
   // wsPort: "",
 
+  webHistory: "/im/",
   hitokoto: "https://v1.hitokoto.cn",
   jinrishici: "https://v1.jinrishici.com/all.json",
   jitang: "https://api.oick.cn/dutang/api.php",
@@ -23,10 +24,7 @@ export default {
   dog: "https://api.oick.cn/dog/api.php",
 
   //前后端定义的密钥，AES使用16位
-  cryptojs_key: "aoligeimeimaobin",
-
-  qiniuUrl: "https://upload.qiniup.com",
-  qiniuDownload: "$$$$七牛云访问域名，仿照【https://file.poetize.cn/】",
+  cryptojs_key: "sarasarasarasara",
 
   before_color_1: "black",
   after_color_1: "linear-gradient(45deg, #f43f3b, #ec008c)",
@@ -34,10 +32,7 @@ export default {
   before_color_2: "rgb(131, 123, 199)",
   after_color_2: "linear-gradient(45deg, #f43f3b, #ec008c)",
 
-  tree_hole_color: ["#ee7752", "#e73c7e", "#23a6d5", "#23d5ab", "rgb(131, 123, 199)", "#23d5ab"],
-
-  userId: 1,
-  source: 0,
+  tree_hole_color: ["rgb(180, 224, 255)", "rgb(180, 203, 255)", "rgb(246, 223, 255)", "rgb(255, 214, 198)", "rgb(255, 205, 143)", "rgb(238, 255, 143)", "rgb(220, 255, 165)", "rgb(164, 234, 192)", "rgb(202, 241, 233)", "rgb(230, 230, 250)"],
 
   emojiList: ['衰', '鄙视', '再见', '捂嘴', '摸鱼', '奋斗', '白眼', '可怜', '皱眉', '鼓掌', '烦恼', '吐舌', '挖鼻', '委屈', '滑稽', '啊这', '生气', '害羞', '晕', '好色', '流泪', '吐血', '微笑', '酷', '坏笑', '吓', '大兵', '哭笑', '困', '呲牙']
 }
