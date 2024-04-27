@@ -11,6 +11,10 @@ export default createStore({
     loadCurrentUser(state, user) {
       state.currentUser = user;
       localStorage.setItem("currentUser", JSON.stringify(user));
+    },
+    loadSysConfig(state, sysConfig) {
+      state.sysConfig = sysConfig;
+      localStorage.setItem("sysConfig", JSON.stringify(sysConfig));
     }
   },
   actions: {},

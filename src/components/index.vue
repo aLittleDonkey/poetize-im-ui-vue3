@@ -649,7 +649,7 @@
         getSystemMessages();
         getFriendRequests();
         getFriendAndGroup();
-        buildCssPicture();
+        getSysConfig();
       }
 
       async function getFriendAndGroup() {
@@ -657,6 +657,22 @@
         await getImGroup();
         await nextTick();
         getIm();
+      }
+
+      function getSysConfig() {
+        $http.get($constant.baseURL + "/sysConfig/listSysConfig")
+          .then((res) => {
+            if (!$common.isEmpty(res.data)) {
+              store.commit("loadSysConfig", res.data);
+              buildCssPicture();
+            }
+          })
+          .catch((error) => {
+            this.$message({
+              message: error.message,
+              type: "error"
+            });
+          });
       }
 
       function buildCssPicture() {
